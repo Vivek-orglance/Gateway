@@ -1,0 +1,31 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: zomato-app
+          uri: lb://ZOMATO-APP
+          predicates:
+            - Path=/zomato/**
+          filters:
+            - AuthenticationFilter
+
+
+        - id: restaurant-service
+          uri: lb://RESTAURANT-SERVICE
+          predicates:
+            - Path=/restaurant/**
+          filters:
+            - AuthenticationFilter
+
+        - id: Auth-service-zomato
+          uri: lb://AUTH-SERVICE-ZOMATO
+          predicates:
+            - Path=/auth/**
+
+  application:
+    name: ZOMATO-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
